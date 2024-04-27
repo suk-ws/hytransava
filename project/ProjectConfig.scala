@@ -17,9 +17,10 @@ object ProjectConfig {
 		"com.vladsch.flexmark" % "flexmark"                 % "0.64.8" % Test,
 		"com.vladsch.flexmark" % "flexmark-profile-pegdown" % "0.64.8" % Test,
 		
-		"org.junit.platform" % "junit-platform-launcher" % "1.10.2" % Test,
+		"org.junit.jupiter"  % "junit-jupiter"           % "5.10.2" % Test,
 		"org.junit.platform" % "junit-platform-commons"  % "1.4.2"  % Test,
-		"org.junit.jupiter"  % "junit-jupiter-engine"    % "5.10.2" % Test,
+		"org.junit.platform" % "junit-platform-launcher" % "1.10.2" % Test,
+		"org.junit.platform" % "junit-platform-console"  % "1.10.2" % Test,
 //		"org.junit.vintage"  % "junit-vintage-engine"    % "5.4.2"  % Test,
 //		"net.aichler"        % "jupiter-interface"       % "0.11.1" % Test,
 //		"org.assertj"        % "assertj-core"            % "3.25.3" % Test,

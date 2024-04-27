@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -53,80 +55,24 @@ public class JTestVar {
 			@DisplayName("but should failed")
 			class WillFailWhen {
 				
-				@Nested
 				@DisplayName("when the key contains character that is not in the allow list(letters, digits, \"_-.*/\\|:#@%&?;,~\")")
-				class WhenKeyInvalid {
-					
-					@Test
-					@DisplayName("like space")
-					void when_space () {
-						assertThrows(Var.IllegalVarIdException.class,
-								() -> new Var("key with space", "value"));
-					}
-					
-					@Test
-					@DisplayName("like Chinese")
-					void when_chinese () {
-						assertThrows(Var.IllegalVarIdException.class,
-								() -> new Var("key-with-中文", "value"));
-					}
-					
-					@Test
-					@DisplayName("like Japanese")
-					void when_japanese () {
-						assertThrows(Var.IllegalVarIdException.class,
-								() -> new Var("key-with-ジャパン", "value"));
-					}
-					
-					@Test
-					@DisplayName("like Pin Yin characters")
-					void when_pin_yin () {
-						assertThrows(Var.IllegalVarIdException.class,
-								() -> new Var("key-with-ɑ́", "value"));
-					}
-					
-					@Test
-					@DisplayName("like latin character")
-					void when_latin () {
-						assertThrows(Var.IllegalVarIdException.class,
-								() -> new Var("key-with-ȧ", "value"));
-					}
-					
-					@Test
-					@DisplayName("like tab")
-					void when_tab () {
-						assertThrows(Var.IllegalVarIdException.class,
-								() -> new Var("key-with-\t", "value"));
-					}
-					
-					@Test
-					@DisplayName("like line break")
-					void when_line_breaks () {
-						assertThrows(Var.IllegalVarIdException.class,
-								() -> new Var("key-with-\n", "value"));
-					}
-					
-					@Test
-					@DisplayName("like square brackets")
-					void when_square_brackets () {
-						assertThrows(Var.IllegalVarIdException.class,
-								() -> new Var("key-with-[]", "value"));
-					}
-					
-					@Test
-					@DisplayName("like curly brackets")
-					void when_curly_brackets () {
-						assertThrows(Var.IllegalVarIdException.class,
-								() -> new Var("key-with-{}", "value"));
-					}
-					
-					@Test
-					@DisplayName("like angle brackets")
-					void when_angle_brackets () {
-						assertThrows(Var.IllegalVarIdException.class,
-								() -> new Var("key-with-<>", "value"));
-					}
-					
+				@ParameterizedTest(name = "like {0}")
+				@CsvSource(delimiter = '|', value = {
+						/* "'Type Name', 'Key'" */
+						" 'space'                | 'key with space'    ",
+						" 'Chinese'              | 'key-with-中文'     ",
+						" 'Japanese'             | 'key-with-ジャパン' ",
+						" 'Pin Yin character'    | 'key-with-ɑ́'        ",
+						" 'latin character'      | 'key-with-ȧ'        ",
+						" 'tab'                  | 'key-with-\t'       ",
+						" 'line break'           | 'key-with-\n'       ",
+						" 'line square brackets' | 'key-with-[]'       ",
+						" 'line curly brackets'  | 'key-with-{}'       ",
+						" 'line angle brackets'  | 'key-with-<>'       ",
+				})
+				void when_key_invalid (String _name, String key) {
+					assertThrows(Var.IllegalVarIdException.class,
+							() -> new Var(key, "value"));
 				}
 				
 				@Test
@@ -136,6 +82,52 @@ public class JTestVar {
 							() -> new Var("", "value"));
 				}
 				
+			}
+			
+		}
+		
+		@Nested
+		@DisplayName("should be able to converted")
+		class Converting {
+			
+			@Test
+			@DisplayName("to another Var with a new id and the same text, using `asId` method")
+			void to_another_with_new_id () {
+				final Var v1 = new Var("key", "value");
+				final Var v2 = v1.asId("new-key");
+				assertEquals(v2.id(), "new-key");
+				assertEquals(v2.text(), v1.text());
+			}
+			
+			@Test
+			@DisplayName("to another Var with a new text and the same id, using `asText` method")
+			void to_another_with_new_text () {
+				final Var v1 = new Var("key", "value");
+				final Var v2 = v1.asText("sOME nEW vALUe");
+				assertEquals(v2.id(), v1.id());
+				assertEquals(v2.text(), "sOME nEW vALUe");
+			}
+			
+		}
+		
+		@Nested
+		@DisplayName("when comparing")
+		class Comparing {
+			
+			@Test
+			@DisplayName("should be equal to another Var with the same id and text")
+			void equal_to_same_id_and_text () {
+				final Var v1 = new Var("key", "value");
+				final Var v2 = new Var("key", "value");
+				assertEquals(v1, v2);
+			}
+			
+			@Test
+			@DisplayName("should not be equal to another Var with different id or text")
+			void not_equal_to_different_id_or_text () {
+				final Var v1 = new Var("key-1", "value-1");
+				assertNotEquals(v1, v1.asId("key_1"));
+				assertNotEquals(v1, v1.asText("value_1"));
 			}
 			
 		}
