@@ -20,13 +20,13 @@ trait VarText {
 	val nodes: List[VTNode]
 	
 	/** Render this VarText with the given `(var-key -> value)` map.
-	  * @since 2.0.0 
+	  * @since 2.0.0
 	  */
 	def render (vars: Map[String, String]): String =
 		nodes.map(_.render(vars)).mkString
 	
 	/** Render this VarText with the given [[Var]]s seq.
-	  * @since 2.0.0 
+	  * @since 2.0.0
 	  */
 	def render (vars: Var*): String =
 		render(Map.from(vars.toList.map(_.unpackKV)))
@@ -52,11 +52,24 @@ trait VarText {
 	
 }
 
+/** Collections about [[VarText]] utils. Contains:
+  *
+  *  - [[VarText]] constructor
+  *  - [[VarText]] parser
+  *  - [[VarText]] to [[String]] convertor using the simple [[VarText.render]] renderer
+  */
 object VarText {
 	
+	/** Most basic [[VarText]] constructor, convert a series [[VTNode]] to [[VarText]]
+	  */
 	def apply (_nodes: VTNode*): VarText = new VarText:
 		override val nodes: List[VTNode] = _nodes.toList
 	
+	/** Get the simplist [[String]] rendered result of this [[VarText]].
+	  * 
+	  * Provides a simple way to use a [[VarText]] as a [[String]] when there's no need to pass
+	  * [[Var]]s to render.
+	  */
 	implicit def VarText_is_String (varText: VarText): String =
 		varText.render()
 	

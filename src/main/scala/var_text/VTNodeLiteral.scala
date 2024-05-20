@@ -1,6 +1,10 @@
 package cc.sukazyo.hytrans
 package var_text
 
+/** A literal node of a [[VarText]].
+  * 
+  * Contains a [[String]] literal param `text`. And this will be rendered as is.
+  */
 case class VTNodeLiteral (
 	text: String
 ) extends VTNode {

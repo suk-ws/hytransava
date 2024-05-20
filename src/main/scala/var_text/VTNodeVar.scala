@@ -1,6 +1,12 @@
 package cc.sukazyo.hytrans
 package var_text
 
+/** A variable node of a [[VarText]], contains a `var_id`.
+  *
+  * While rendering, this will search `var_id` in the provided [[Var]]s and renders the
+  * matches [[Var.text]]. If there's no matches [[Var]] provided, this will render a placeholder
+  * formatted like `${var_id}`
+  */
 class VTNodeVar (
 	var_id: String
 ) extends VTNode {
