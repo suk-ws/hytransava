@@ -5,7 +5,7 @@ object ProjectConfig {
 	val package_name :String = "hytransava"
 	val package_group: String = "cc.sukazyo"
 	val package_id: String = s"$package_group.hytrans"
-	val version: String = "0.1.0-alpha1"
+	val version: String = "0.1.0"
 	
 	val SNAPSHOT: Boolean = true
 	
