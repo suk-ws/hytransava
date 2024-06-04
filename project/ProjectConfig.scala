@@ -9,7 +9,13 @@ object ProjectConfig {
 	
 	val SNAPSHOT: Boolean = true
 	
+	val dependencyRepos: Seq[Resolver] = Seq(
+		"-ws-releases" at "https://mvn.sukazyo.cc/releases"
+	)
+	
 	val dependencies: Seq[ModuleID] = Seq(
+		
+		"cc.sukazyo" % "resource-tools" % "0.2.2" % Test,
 		
 		"org.scalatest" %% "scalatest"          % "3.2.18" % Test,
 		"org.scalatest" %% "scalatest-freespec" % "3.2.18" % Test,
@@ -18,7 +24,7 @@ object ProjectConfig {
 		"com.vladsch.flexmark" % "flexmark-profile-pegdown" % "0.64.8" % Test,
 		
 		"org.junit.jupiter"  % "junit-jupiter"           % "5.10.2" % Test,
-		"org.junit.platform" % "junit-platform-commons"  % "1.4.2"  % Test,
+		"org.junit.platform" % "junit-platform-commons"  % "1.10.2" % Test,
 		"org.junit.platform" % "junit-platform-launcher" % "1.10.2" % Test,
 		"org.junit.platform" % "junit-platform-console"  % "1.10.2" % Test,
 //		"org.junit.vintage"  % "junit-vintage-engine"    % "5.4.2"  % Test,
