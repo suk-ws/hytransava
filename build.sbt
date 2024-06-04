@@ -1,3 +1,5 @@
+aether.AetherKeys.aetherOldVersionMethod := true
+
 ThisBuild / scalaVersion := "3.4.1"
 
 ThisBuild / organization := "cc.sukazyo"
@@ -14,9 +16,10 @@ ThisBuild / developers := List(
 
 ThisBuild / licenses += "MIT" -> url("https://github.com/suk-ws/hytransava/blob/master/LICENSE")
 
-ThisBuild / version := ProjectConfig.version
+ThisBuild / version := ProjectMetadata.version
+ThisBuild / versionScheme := Some("semver-spec")
 
-ThisBuild / resolvers ++= ProjectConfig.dependencyRepos
+ThisBuild / resolvers ++= ProjectMetadata.resolvers
 
 val encoding = "UTF-8"
 val javaTarget = "17"
@@ -24,13 +27,15 @@ val javaTarget = "17"
 lazy val root = (project in file("."))
 	.settings(
 		
-		name := ProjectConfig.package_name,
+		name := ProjectMetadata.package_name,
 		// TODO: descriptions
 		
-		moduleName := ProjectConfig.package_id,
-		idePackagePrefix := Some({ProjectConfig.package_id}),
+		crossPaths := false,
 		
-		libraryDependencies ++= ProjectConfig.dependencies,
+		moduleName := ProjectMetadata.package_name,
+		idePackagePrefix := Some({ProjectMetadata.package_id}),
+		
+		libraryDependencies ++= ProjectMetadata.dependencies,
 		
 		scalacOptions ++= Seq(
 			"-language:postfixOps",
@@ -45,7 +50,7 @@ lazy val root = (project in file("."))
 		
 		autoAPIMappings := true,
 		
-		publishTo := ProjectConfig.publishTo,
-		credentials ++= ProjectConfig.publishCredentials,
+		publishTo := ProjectMetadata.publishTo,
+		credentials ++= ProjectMetadata.publishCredentials,
 		
 	)

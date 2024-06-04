@@ -10,7 +10,7 @@ object ProjectConfig {
 	val SNAPSHOT: Boolean = true
 	
 	val dependencyRepos: Seq[Resolver] = Seq(
-		"-ws-releases" at "https://mvn.sukazyo.cc/releases"
+		Resolvers.ws_release
 	)
 	
 	val dependencies: Seq[ModuleID] = Seq(
@@ -35,18 +35,25 @@ object ProjectConfig {
 	)
 	
 	val publishTarget: String = "workshop"
+	
 	val publishTo: Option[Resolver] = {
 		publishTarget match {
 			case "workshop" => SNAPSHOT match {
-				case true => Some("-ws-snapshots" at "https://mvn.sukazyo.cc/snapshots")
-				case false => Some("-ws-releases" at "https://mvn.sukazyo.cc/releases")
+				case true => Some(Resolvers.ws_snapshots)
+				case false => Some(Resolvers.ws_release)
 			}
-			case "local" => Some(Resolver.file("build", file("S:/__tests/artifacts")))
+			case "local" => Some(Resolvers.local)
 			case _ => None
 		}
 	}
 	val publishCredentials: Seq[Credentials] = Seq(
 			if (publishTarget == "workshop") Credentials(Path.userHome / ".sbt" / ("workshop-mvn"+".credentials")) else null
 	).filterNot(_ == null)
+	
+	object Resolvers {
+		val ws_snapshots = "-ws-snapshots" at "https://mvn.sukazyo.cc/snapshots"
+		val ws_release = "-ws-releases" at "https://mvn.sukazyo.cc/releases"
+		val local = Resolver.file("build", file("S:/__tests/artifacts"))
+	}
 	
 }
