@@ -33,7 +33,6 @@ lazy val root = (project in file("."))
 		crossPaths := false,
 		
 		moduleName := ProjectMetadata.package_name,
-		idePackagePrefix := Some({ProjectMetadata.package_id}),
 		
 		libraryDependencies ++= ProjectMetadata.dependencies,
 		

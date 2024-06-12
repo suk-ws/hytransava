@@ -10,10 +10,14 @@ object ProjectConfig {
 	val SNAPSHOT: Boolean = true
 	
 	val dependencyRepos: Seq[Resolver] = Seq(
-		Resolvers.ws_release
+		Resolvers.ws_release,
+		Resolvers.ws_snapshots
 	)
 	
 	val dependencies: Seq[ModuleID] = Seq(
+		
+		"cc.sukazyo" % "da4a" % "0.1.0-SNAPSHOT",
+		"cc.sukazyo" % "messiva" % "0.2.0",
 		
 		"cc.sukazyo" % "resource-tools" % "0.2.2" % Test,
 		
@@ -38,10 +42,9 @@ object ProjectConfig {
 	
 	val publishTo: Option[Resolver] = {
 		publishTarget match {
-			case "workshop" => SNAPSHOT match {
-				case true => Some(Resolvers.ws_snapshots)
-				case false => Some(Resolvers.ws_release)
-			}
+			case "workshop" =>
+				if (SNAPSHOT) Some(Resolvers.ws_snapshots)
+				else Some(Resolvers.ws_release)
 			case "local" => Some(Resolvers.local)
 			case _ => None
 		}
