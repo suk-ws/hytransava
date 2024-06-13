@@ -1,6 +1,9 @@
 package cc.sukazyo.hytrans.parser.hytrans
 
+import cc.sukazyo.hytrans.data.hytrans.Document
+
 import java.nio.charset.Charset
+import scala.collection.immutable.TreeMap
 import scala.collection.mutable.ListBuffer
 
 case class DocumentContext (
@@ -12,15 +15,21 @@ case class DocumentContext (
 	
 ) {
 	
-	private val builtKeys: ListBuffer[DocItem] = ListBuffer.empty[DocItem]
+	private val builtItems: ListBuffer[DocItem] = ListBuffer.empty[DocItem]
 	
 	def addItem (item: DocItem): Unit =
-		builtKeys += item
+		builtItems += item
 	
-	def toItemKVMap: Map[String, String] =
-		builtKeys
-			.map(_.toKVItem)
-			.toMap
+	def isEmpty: Boolean =
+		builtItems.isEmpty
+	
+	def nonEmpty: Boolean =
+		builtItems.nonEmpty
+	
+	def buildDocument: Document =
+		Document(TreeMap.from[String, String](
+			builtItems.map(_.toKVItem)
+		))
 	
 }
 

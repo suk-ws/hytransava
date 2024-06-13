@@ -2,13 +2,9 @@ package cc.sukazyo.hytrans.parser.hytrans
 
 import cc.sukazyo.hytrans.lexis.hytrans.*
 
-import cc.sukazyo.std.contexts.GivenContext
-
 class ParserComments extends NodeParser4HyTrans {
 	
-	override def parse
-	(using node: Lexis4HyTrans)
-	(using context: GivenContext, event: HyTransParser.ParseNodeEvent): Unit = {
+	override def parse (using node: Lexis4HyTrans)(using event: HyTransParser.ParseNodeEvent): Unit = {
 		node match
 			case commentNode: LexisCommentLine =>
 				// comment line can be safely ignored
