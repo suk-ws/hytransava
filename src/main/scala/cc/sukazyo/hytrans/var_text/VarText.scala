@@ -1,7 +1,6 @@
-package cc.sukazyo.hytrans
-package var_text
+package cc.sukazyo.hytrans.var_text
 
-import var_text.Var.isLegalId
+import cc.sukazyo.hytrans.var_text.Var.isLegalId
 
 /** A text/string template that may contains some named replaceable variables. It's concept may
   * be similar with scala's `StringContext` or `GString` in groovy.

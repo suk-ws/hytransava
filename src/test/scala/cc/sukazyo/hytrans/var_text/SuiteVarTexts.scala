@@ -1,4 +1,5 @@
-package cc.sukazyo.hytrans
-package var_text
+package cc.sukazyo.hytrans.var_text
+
+import cc.sukazyo.hytrans.SuiteHytransava
 
 class SuiteVarTexts extends SuiteHytransava

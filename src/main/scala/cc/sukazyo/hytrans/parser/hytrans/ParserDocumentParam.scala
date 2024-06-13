@@ -1,7 +1,6 @@
-package cc.sukazyo.hytrans
-package parser.hytrans
+package cc.sukazyo.hytrans.parser.hytrans
 
-import lexis.hytrans.*
+import cc.sukazyo.hytrans.lexis.hytrans.*
 
 import cc.sukazyo.std.contexts.GivenContext
 import java.nio.charset.Charset

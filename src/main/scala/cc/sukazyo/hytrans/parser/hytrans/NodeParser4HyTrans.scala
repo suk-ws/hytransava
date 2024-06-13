@@ -1,7 +1,6 @@
-package cc.sukazyo.hytrans
-package parser.hytrans
+package cc.sukazyo.hytrans.parser.hytrans
 
-import lexis.hytrans.Lexis4HyTrans
+import cc.sukazyo.hytrans.lexis.hytrans.Lexis4HyTrans
 
 import cc.sukazyo.std.contexts.GivenContext
 

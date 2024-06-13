@@ -1,7 +1,6 @@
-package cc.sukazyo.hytrans
-package var_text
+package cc.sukazyo.hytrans.var_text
 
-import var_text.Var.{isLegalId, IllegalVarIdException}
+import cc.sukazyo.hytrans.var_text.Var.{isLegalId, IllegalVarIdException}
 
 /** A Var is a key-value pair, where the key is a string, and the value is also a string.
   *

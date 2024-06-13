@@ -1,5 +1,4 @@
-package cc.sukazyo.hytrans
-package var_text
+package cc.sukazyo.hytrans.var_text
 
 class TestVar extends SuiteVarTexts {
 	
@@ -30,7 +29,7 @@ class TestVar extends SuiteVarTexts {
 				v.text `shouldEqual` my_value
 			}
 			
-			import var_text.Var.IllegalVarIdException
+			import cc.sukazyo.hytrans.var_text.Var.IllegalVarIdException
 			
 			"when contains letters, digits, and some allowed special characters (\"\")" in {
 				noException should be thrownBy :

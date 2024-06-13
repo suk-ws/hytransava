@@ -1,5 +1,4 @@
-package cc.sukazyo.hytrans
-package lexis
+package cc.sukazyo.hytrans.lexis
 
 object LineLexer {
 	

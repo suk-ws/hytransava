@@ -1,7 +1,6 @@
-package cc.sukazyo.hytrans
-package lexis.hytrans
+package cc.sukazyo.hytrans.lexis.hytrans
 
-import lexis.LineLexis
+import cc.sukazyo.hytrans.lexis.LineLexis
 
 import scala.util.boundary
 import scala.util.boundary.break

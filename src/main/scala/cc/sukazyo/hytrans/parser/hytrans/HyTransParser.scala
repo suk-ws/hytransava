@@ -1,15 +1,10 @@
-package cc.sukazyo.hytrans
-package parser.hytrans
+package cc.sukazyo.hytrans.parser.hytrans
 
-import lexis.hytrans.*
-
+import cc.sukazyo.hytrans.lexis.hytrans.*
+import cc.sukazyo.hytrans.parser.hytrans.HyTransParser.{_Parameter, NodeParserWhenNoNodes, ParseNodeEvent}
 import cc.sukazyo.messiva.logger.Logger
 import cc.sukazyo.std.contexts.GivenContext
 
-import java.nio.charset.{Charset, StandardCharsets}
-import cc.sukazyo.hytrans.parser.hytrans.HyTransParser.ParseNodeEvent
-import cc.sukazyo.hytrans.parser.hytrans.HyTransParser._Parameter
-import cc.sukazyo.hytrans.parser.hytrans.HyTransParser.NodeParserWhenNoNodes
 import scala.util.boundary
 
 object HyTransParser {
@@ -63,11 +58,11 @@ class HyTransParser (
 	
 ) {
 	
-	val nodeParsers: List[NodeParser4HyTrans] = _nodeParsers.appended(NodeParserWhenNoNodes)
+	private val nodeParsers: List[NodeParser4HyTrans] = _nodeParsers.appended(NodeParserWhenNoNodes)
 	logger.debug(s"initialized HyTransParser with ${nodeParsers.size} plugins")
 	
 	private val _logger = logger
-	object Parameter extends _Parameter {
+	private object Parameter extends _Parameter {
 		
 		val logger: Logger = _logger
 		
@@ -87,7 +82,7 @@ class HyTransParser (
 			
 			boundary { for (parserHandler <- nodeParsers) {
 				
-				logger.debug(s"calling ${parserHandler.getClass.getSimpleName} for node ${node}")
+				logger.debug(s"calling ${parserHandler.getClass.getSimpleName} for node $node")
 				parserHandler.parse(
 					using node
 				)

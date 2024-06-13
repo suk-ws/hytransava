@@ -1,5 +1,4 @@
-package cc.sukazyo.hytrans
-package var_text
+package cc.sukazyo.hytrans.var_text
 
 /** A node of a [[VarText]].
   */

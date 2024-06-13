@@ -1,5 +1,4 @@
-package cc.sukazyo.hytrans
-package parser.hytrans
+package cc.sukazyo.hytrans.parser.hytrans
 
 import java.nio.charset.Charset
 import scala.collection.mutable.ListBuffer

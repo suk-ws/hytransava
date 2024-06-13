@@ -1,4 +1,3 @@
-package cc.sukazyo.hytrans
-package lexis.hytrans
+package cc.sukazyo.hytrans.lexis.hytrans
 
 trait Lexis4HyTrans

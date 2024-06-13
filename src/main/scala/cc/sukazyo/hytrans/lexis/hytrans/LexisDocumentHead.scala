@@ -1,7 +1,6 @@
-package cc.sukazyo.hytrans
-package lexis.hytrans
+package cc.sukazyo.hytrans.lexis.hytrans
 
-import lexis.LineLexis.LineLexisImpl
+import cc.sukazyo.hytrans.lexis.LineLexis.LineLexisImpl
 
 case class LexisDocumentHead (
 	
