@@ -1,10 +1,9 @@
 package cc.sukazyo.hytrans.parser.hytrans
 
-import cc.sukazyo.hytrans.data.hytrans.Document
+import cc.sukazyo.hytrans.data.hytrans.{LocalizedContent, LocalizedDocument}
 
 import java.nio.charset.Charset
-import scala.collection.immutable.TreeMap
-import scala.collection.mutable.ListBuffer
+import scala.collection.mutable
 
 case class DocumentContext (
 	
@@ -15,10 +14,10 @@ case class DocumentContext (
 	
 ) {
 	
-	private val builtItems: ListBuffer[DocItem] = ListBuffer.empty[DocItem]
+	private val builtItems: mutable.Map[String, LocalizedContent] = mutable.SeqMap.empty[String, LocalizedContent]
 	
-	def addItem (item: DocItem): Unit =
-		builtItems += item
+	def addItem (key: String, content: LocalizedContent): Unit =
+		builtItems += (key -> content)
 	
 	def isEmpty: Boolean =
 		builtItems.isEmpty
@@ -26,10 +25,8 @@ case class DocumentContext (
 	def nonEmpty: Boolean =
 		builtItems.nonEmpty
 	
-	def buildDocument: Document =
-		Document(TreeMap.from[String, String](
-			builtItems.map(_.toKVItem)
-		))
+	def buildDocument: LocalizedDocument =
+		LocalizedDocument(builtItems.toMap)
 	
 }
 

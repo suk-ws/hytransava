@@ -19,7 +19,7 @@ object ProjectConfig {
 		"cc.sukazyo" % "da4a" % "0.1.0-SNAPSHOT",
 		"cc.sukazyo" % "messiva" % "0.2.0",
 		
-		"cc.sukazyo" % "resource-tools" % "0.2.2" % Test,
+		"cc.sukazyo" % "resource-tools" % "0.3.0" % Test,
 		
 		"org.scalatest" %% "scalatest"          % "3.2.18" % Test,
 		"org.scalatest" %% "scalatest-freespec" % "3.2.18" % Test,

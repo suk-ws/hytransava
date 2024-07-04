@@ -1,6 +1,6 @@
 package cc.sukazyo.hytrans.parser.hytrans
 
-import cc.sukazyo.hytrans.data.hytrans.Document
+import cc.sukazyo.hytrans.data.hytrans.LocalizedDocument
 import cc.sukazyo.hytrans.lexis.hytrans.*
 import cc.sukazyo.hytrans.parser.hytrans.HyTransParser.{NodeParserWhenNoNodes, ParseNodeEvent, ParserParameter, ParsingParameter}
 import cc.sukazyo.messiva.logger.Logger
@@ -14,7 +14,7 @@ object HyTransParser {
 	
 	trait ParserParameter (val logger: Logger)
 	
-	trait ParsingParameter (val context: GivenContext, protected val parsedDocument: ListBuffer[Document])
+	trait ParsingParameter (val context: GivenContext, protected val parsedDocument: ListBuffer[LocalizedDocument])
 		extends ParserParameter {
 		
 		def getDocContext: DocumentContext =
@@ -23,11 +23,11 @@ object HyTransParser {
 			} catch case e: ContextNotGivenException =>
 				throw Exception("Missing required DocumentContext in GivenContext of HyTransParser.").initCause(e)
 		
-		def addDocument (document: Document): Unit =
+		def addDocument (document: LocalizedDocument): Unit =
 			parsedDocument += document
 			logger.trace(s"document added, now have ${parsedDocument.size} documents")
 		
-		def getBuiltDocuments: List[Document] =
+		def getBuiltDocuments: List[LocalizedDocument] =
 			logger.trace("built result documents with an array of size " + parsedDocument.size)
 			parsedDocument.toList
 		
@@ -82,14 +82,14 @@ class HyTransParser (
 	
 	private object ThisParameter extends ParserParameter(logger) {
 		
-		private class ParsingParameterImpl (context: GivenContext, parsedDocument: ListBuffer[Document])
+		private class ParsingParameterImpl (context: GivenContext, parsedDocument: ListBuffer[LocalizedDocument])
 			extends ParsingParameter (context, parsedDocument) with ParserParameter(this.logger)
 		def genParsingParameter: ParsingParameter =
 			ParsingParameterImpl(GivenContext(), ListBuffer.empty)
 		
 	}
 	
-	def parse (lexis: List[Lexis4HyTrans]): List[Document] = {
+	def parse (lexis: List[Lexis4HyTrans]): List[LocalizedDocument] = {
 		
 		
 		given parameter: ParsingParameter = ThisParameter.genParsingParameter

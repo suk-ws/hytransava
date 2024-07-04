@@ -23,7 +23,7 @@ class TestVar extends SuiteVarTexts {
 			}
 			
 			"by using the extension method `asVar` of String" in {
-				import Var.String_As_VarText
+				import Var.String_As_Var
 				val v: Var = my_value.asVar(my_key)
 				v.id `shouldEqual` my_key
 				v.text `shouldEqual` my_value

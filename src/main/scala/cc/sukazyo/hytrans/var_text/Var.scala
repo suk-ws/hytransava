@@ -8,7 +8,7 @@ import cc.sukazyo.hytrans.var_text.Var.{isLegalId, IllegalVarIdException}
   *
   * You can just call the [[Var]] constructor to create a new Var, or use the implicit
   * conversion to create a var from a tuple of ([[String]], [[String]]), or use the extension
-  * method [[Var.String_As_VarText.asVar]] to convert a [[String]] to a var.
+  * method [[Var.String_As_Var.asVar]] to convert a [[String]] to a var.
   * 
   * @since 0.1.0
   *
@@ -111,7 +111,7 @@ object Var {
 		Var(tuple._1, tuple._2.toString)
 	
 	/** @see [[asVar]] */
-	implicit class String_As_VarText (text: String):
+	implicit class String_As_Var (text: String):
 		/** Convert this string text to a [[Var]].
 		  * @since 0.1.0
 		  * @param id the var-id.

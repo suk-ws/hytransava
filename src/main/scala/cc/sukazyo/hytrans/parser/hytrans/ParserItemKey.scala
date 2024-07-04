@@ -11,13 +11,13 @@ class ParserItemKey extends NodeParser4HyTrans {
 				
 				import event.context
 				val docContext = event.getDocContext
-				context >> { (itemBuilder: DocItem.Builder) =>
-					if itemBuilder.nonEmpty then
-						docContext.addItem(itemBuilder.build)
+				context >> { (itemBuilder: ItemBuilder) =>
+					if itemBuilder.contentBuilder.nonEmpty then
+						docContext.addItem(itemBuilder.itemKey, itemBuilder.contentBuilder.build)
 					else
 						event.logger.warn("found item key which have no lines declared: " + itemKey.key)
 				}
-				context << DocItem.Builder(itemKey.key)
+				context << ItemBuilder(itemKey.key)
 				event.setComplete()
 				
 			case _ =>
