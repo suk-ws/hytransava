@@ -31,6 +31,13 @@ class ParserDocumentParam extends NodeParser4HyTrans {
 						} catch case e: NumberFormatException =>
 							event.logger.error("Cannot set indent size: " + e.getMessage)
 							event.logger.warn("This will be ignored.")
+					case "line-wrap" =>
+						DocumentContext.LineWrapMode.byName(docParam.value) match
+							case Some(mode) =>
+								docContext.lineWrapMode = mode
+								event.setComplete()
+							case None =>
+								event.logger.error(s"Cannot set line wrap mode due to `${docParam.value}` is not a valid setting value.")
 					case _ =>
 						event.logger.warn("Unsupported document parameter: " + docParam.key)
 				

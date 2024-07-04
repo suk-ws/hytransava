@@ -14,8 +14,8 @@ object LexisItemLine extends Lexer4HyTrans[LexisItemLine] {
 	
 	enum LinePrefix(val tag: Char):
 		case normal extends LinePrefix('|')
-		case hard_break extends LinePrefix('\\')
-		case non_break extends LinePrefix('/')
+		case hard_break extends LinePrefix('/')
+		case non_break extends LinePrefix('\\')
 	object LinePrefix:
 		val prefixes: Map[Char, LinePrefix] = LinePrefix.values.map(x => x.tag -> x).toMap
 		def supportedPrefixes: List[Char] =

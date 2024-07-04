@@ -115,6 +115,11 @@ class HyTransParser (
 		}
 		
 		val lastDoc = parameter.getDocContext
+		// TODO: document finished cleanup api
+		parameter.context >> { (unfinishedItem: ItemBuilder) =>
+			lastDoc.addItem(unfinishedItem.itemKey, unfinishedItem.contentBuilder.build)
+		}
+		// END_TODO
 		if lastDoc.nonEmpty then
 			parameter.addDocument(lastDoc.buildDocument)
 			logger.debug("built last document")

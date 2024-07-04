@@ -3,6 +3,7 @@ package cc.sukazyo.hytrans.parser.hytrans
 import cc.sukazyo.hytrans.lexis.hytrans.{Lexis4HyTrans, LexisItemLine}
 import cc.sukazyo.hytrans.lexis.hytrans.LexisItemLine.LinePrefix
 import cc.sukazyo.hytrans.parser.hytrans.HyTransParser.ParseNodeEvent
+import cc.sukazyo.hytrans.parser.hytrans.ItemContentBuilder.ContentLine
 
 class ParserItemLine extends NodeParser4HyTrans {
 	
@@ -25,7 +26,7 @@ class ParserItemLine extends NodeParser4HyTrans {
 					)
 				
 				context >> { (itemBuilder: ItemBuilder) =>
-					itemBuilder.contentBuilder.addLine(realLineContent, prefixed)
+					itemBuilder.contentBuilder.addLine(ContentLine(realLineContent, prefixed, docContext.lineWrapMode))
 				} || {
 					event.logger.warn("found content line which have no keys declared: " + itemLine.content)
 				}

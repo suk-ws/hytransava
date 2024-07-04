@@ -15,6 +15,11 @@ class ParserDocumentHeader extends NodeParser4HyTrans {
 				if !List("1.0", "1").contains(docHeader.documentVersion) then
 					throw new Exception(s"Unsupported document version: '${docHeader.documentVersion}'")
 				context >> { (oldDocumentContext: DocumentContext) =>
+					// TODO: document finished cleanup api
+					context >> { (unfinishedItem: ItemBuilder) =>
+						oldDocumentContext.addItem(unfinishedItem.itemKey, unfinishedItem.contentBuilder.build)
+					}
+					// END_TODO
 					if oldDocumentContext.nonEmpty then
 						event.addDocument(oldDocumentContext.buildDocument)
 						event.logger.debug("built old document")
