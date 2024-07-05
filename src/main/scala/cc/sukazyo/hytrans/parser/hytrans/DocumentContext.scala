@@ -17,7 +17,8 @@ case class DocumentContext (
 	
 ) {
 	
-	private val builtItems: mutable.Map[String, LocalizedContent] = mutable.SeqMap.empty[String, LocalizedContent]
+	private val builtItems: mutable.Map[String, LocalizedContent] = mutable.SeqMap.empty
+	private val beforeBuiltCleanupTasks: mutable.Map[Class[?], DocumentContext=>Unit] = mutable.SeqMap.empty
 	
 	def addItem (key: String, content: LocalizedContent): Unit =
 		builtItems += (key -> content)
@@ -28,7 +29,13 @@ case class DocumentContext (
 	def nonEmpty: Boolean =
 		builtItems.nonEmpty
 	
+	def registerOnDocumentEnd (owner: Class[?])(program: DocumentContext=>Unit): Unit =
+		beforeBuiltCleanupTasks += (owner -> program)
+	def removeOnDocumentEnd (owner: Class[?]): Unit =
+		beforeBuiltCleanupTasks.remove(owner)
+	
 	def buildDocument: LocalizedDocument =
+		beforeBuiltCleanupTasks.values.foreach(_(this))
 		LocalizedDocument(builtItems.toMap)
 	
 }

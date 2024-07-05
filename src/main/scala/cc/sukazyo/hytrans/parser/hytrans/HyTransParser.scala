@@ -120,12 +120,7 @@ class HyTransParser (
 			lastDoc.addItem(unfinishedItem.itemKey, unfinishedItem.contentBuilder.build)
 		}
 		// END_TODO
-		if lastDoc.nonEmpty then
-			parameter.addDocument(lastDoc.buildDocument)
-			logger.debug("built last document")
-		else
-			logger.debug("last document is empty, skipped")
-			logger.warn("does your document is empty? cannot find any items in the last document in this file.")
+		parameter.addDocument(lastDoc.buildDocument)
 		parameter.getBuiltDocuments
 		
 	}
