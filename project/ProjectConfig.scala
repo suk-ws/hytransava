@@ -16,7 +16,7 @@ object ProjectConfig {
 	
 	val dependencies: Seq[ModuleID] = Seq(
 		
-		"cc.sukazyo" % "da4a" % "0.1.0-SNAPSHOT",
+		"cc.sukazyo" % "da4a" % "0.2.0-SNAPSHOT",
 		"cc.sukazyo" % "messiva" % "0.2.0",
 		
 		"cc.sukazyo" % "resource-tools" % "0.3.0" % Test,

@@ -3,6 +3,7 @@ package cc.sukazyo.hytrans.parser.hytrans
 import cc.sukazyo.hytrans.data.hytrans.{LocalizedContent, LocalizedDocument}
 import cc.sukazyo.hytrans.lexis.hytrans.LexisItemLine.LinePrefix
 import cc.sukazyo.hytrans.parser.hytrans.DocumentContext.LineWrapMode
+import cc.sukazyo.std.event.Event
 
 import java.nio.charset.Charset
 import scala.collection.mutable
@@ -18,7 +19,9 @@ case class DocumentContext (
 ) {
 	
 	private val builtItems: mutable.Map[String, LocalizedContent] = mutable.SeqMap.empty
-	private val beforeBuiltCleanupTasks: mutable.Map[Class[?], DocumentContext=>Unit] = mutable.SeqMap.empty
+	
+//	val onDocumentEnd: mutable.Map[Class[?], DocumentContext=>Unit] = mutable.SeqMap.empty
+	val onDocumentEnd: Event[DocumentContext, Unit] = Event.simple
 	
 	def addItem (key: String, content: LocalizedContent): Unit =
 		builtItems += (key -> content)
@@ -29,13 +32,8 @@ case class DocumentContext (
 	def nonEmpty: Boolean =
 		builtItems.nonEmpty
 	
-	def registerOnDocumentEnd (owner: Class[?])(program: DocumentContext=>Unit): Unit =
-		beforeBuiltCleanupTasks += (owner -> program)
-	def removeOnDocumentEnd (owner: Class[?]): Unit =
-		beforeBuiltCleanupTasks.remove(owner)
-	
 	def buildDocument: LocalizedDocument =
-		beforeBuiltCleanupTasks.values.foreach(_(this))
+		onDocumentEnd(this)
 		LocalizedDocument(builtItems.toMap)
 	
 }
