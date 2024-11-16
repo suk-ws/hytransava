@@ -70,6 +70,13 @@ class TestLanguageTag extends SuiteHytransava {
 			
 		}
 		
+		"method isOf() should be able to check if a name is the same as the tag after normalized" in {
+			val tag = LanguageTag("en_us")
+			tag.isOf("en_us") shouldEqual true
+			tag.isOf("en-US") shouldEqual true
+			tag.isOf("en-gb") shouldEqual false
+		}
+		
 	}
 	
 	"the LanguageTag.IllegalLanguageTagException class" - {

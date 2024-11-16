@@ -56,10 +56,10 @@ object LanguageTag {
 		name.foreach {
 			case c if 'a' to 'z' contains c =>
 			case c if '0' to '9' contains c =>
-			case c if c.isLetter =>
-				throw IllegalLanguageTagException("Lang Tag must be in English characters", name)
 			case c if 'A' to 'Z' contains c =>
 				throw IllegalLanguageTagException("Lang Tag must be in lower cased", name)
+			case c if c.isLetter =>
+				throw IllegalLanguageTagException("Lang Tag must be in English characters", name)
 			case '_' =>
 			case '-' =>
 				throw IllegalLanguageTagException("dashes in Lang Tag must be converted to underscores", name)
