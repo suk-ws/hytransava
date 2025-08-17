@@ -1,6 +1,6 @@
 aether.AetherKeys.aetherOldVersionMethod := true
 
-ThisBuild / scalaVersion := "3.4.1"
+ThisBuild / scalaVersion := "3.7.2"
 
 ThisBuild / organization := "cc.sukazyo"
 ThisBuild / organizationName := "Sukazyo Workshop"
