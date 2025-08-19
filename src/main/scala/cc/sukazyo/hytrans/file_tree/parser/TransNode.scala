@@ -18,7 +18,7 @@ sealed trait TransNode {
 object TransNode {
 	
 	trait Root extends Folder {
-		def parent: Option[TransNode] = None
+		def parent: None.type = None
 	}
 	
 	trait Folder extends TransNode {

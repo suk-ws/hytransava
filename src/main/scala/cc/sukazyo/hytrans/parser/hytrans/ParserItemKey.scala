@@ -20,7 +20,7 @@ class ParserItemKey extends NodeParser4HyTrans {
 				}
 				
 				context << ItemBuilder(itemKey.key)
-				docContext.onDocumentEnd.addListener (this.getClass) { endedDocumentContext =>
+				docContext.onDocumentEnd --> { endedDocumentContext =>
 					context >> { (unfinishedItem: ItemBuilder) =>
 						endedDocumentContext.addItem(unfinishedItem.itemKey, unfinishedItem.contentBuilder.build)
 					}

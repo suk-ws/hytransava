@@ -7,7 +7,9 @@ import java.io.InputStream
 
 object Parser {
 	
-	private class FolderRoot extends FolderImpl("") with TransNode.Root
+	private class FolderRoot extends FolderImpl("") with TransNode.Root {
+		override def parent: None.type = None
+	}
 	
 	private class FolderImpl (_name: String, _languageTag: Option[LanguageTag] = None) extends TransNode.Folder {
 		private[Parser] var _parent: Option[FolderImpl] = None

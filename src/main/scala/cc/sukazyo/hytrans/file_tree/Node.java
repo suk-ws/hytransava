@@ -7,6 +7,4 @@ public interface Node {
 	
 	String getName();
 	
-	InputStream readStream() throws IOException;
-	
 }

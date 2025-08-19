@@ -1,3 +1,10 @@
 package cc.sukazyo.hytrans.file_tree;
 
-public interface File extends Node {}
+import java.io.IOException;
+import java.io.InputStream;
+
+public interface File extends Node {
+	
+	InputStream readStream() throws IOException;
+	
+}

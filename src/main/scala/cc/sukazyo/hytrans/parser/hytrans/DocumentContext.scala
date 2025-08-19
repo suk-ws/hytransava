@@ -20,8 +20,7 @@ case class DocumentContext (
 	
 	private val builtItems: mutable.Map[String, LocalizedContent] = mutable.SeqMap.empty
 	
-//	val onDocumentEnd: mutable.Map[Class[?], DocumentContext=>Unit] = mutable.SeqMap.empty
-	val onDocumentEnd: Event[DocumentContext, Unit] = Event.simple
+	val onDocumentEnd: Event[DocumentContext, Unit] = Event()
 	
 	def addItem (key: String, content: LocalizedContent): Unit =
 		builtItems += (key -> content)
@@ -33,7 +32,7 @@ case class DocumentContext (
 		builtItems.nonEmpty
 	
 	def buildDocument: LocalizedDocument =
-		onDocumentEnd(this)
+		onDocumentEnd.emit(this)
 		LocalizedDocument(builtItems.toMap)
 	
 }
