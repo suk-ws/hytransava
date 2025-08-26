@@ -3,7 +3,7 @@ package cc.sukazyo.hytrans.parser.hytrans
 import cc.sukazyo.hytrans.data.hytrans.{LocalizedContent, LocalizedDocument}
 import cc.sukazyo.hytrans.lexis.hytrans.LexisItemLine.LinePrefix
 import cc.sukazyo.hytrans.parser.hytrans.DocumentContext.LineWrapMode
-import cc.sukazyo.std.event.Event
+import cc.sukazyo.std.event.{Event, SupplierEvent}
 
 import java.nio.charset.Charset
 import scala.collection.mutable
@@ -20,7 +20,7 @@ case class DocumentContext (
 	
 	private val builtItems: mutable.Map[String, LocalizedContent] = mutable.SeqMap.empty
 	
-	val onDocumentEnd: Event[DocumentContext, Unit] = Event()
+	val onDocumentEnd: SupplierEvent[DocumentContext] = Event()
 	
 	def addItem (key: String, content: LocalizedContent): Unit =
 		builtItems += (key -> content)
