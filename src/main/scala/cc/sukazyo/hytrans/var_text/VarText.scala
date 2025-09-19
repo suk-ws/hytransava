@@ -1,6 +1,9 @@
 package cc.sukazyo.hytrans.var_text
 
 import cc.sukazyo.hytrans.var_text.Var.isLegalId
+import cc.sukazyo.hytrans.var_text.VarText.RenderingSequence
+
+import scala.collection.mutable.ListBuffer
 
 /** A text/string template that may contains some named replaceable variables. It's concept may
   * be similar with scala's `StringContext` or `GString` in groovy.
@@ -8,7 +11,7 @@ import cc.sukazyo.hytrans.var_text.Var.isLegalId
   * A [[VarText]] can contains a stream of [[VTNode]]s, each nodes can be a [[VTNodeLiteral]] or
   * a [[VTNodeVar]].
   *
-  * This can be rendered to a native [[String]] by calling [[render]] method with a set of [[Var]]
+  * This can be rendered to a native [[String]] by calling [[preRender]] method with a set of [[Var]]
   * variables. The [[VTNodeVar]] will look for the given [[Var]]s to find if there's a match, and
   * replace itself with the value of the [[Var]], or output a placeholder if there's no match.
   * 
@@ -22,13 +25,41 @@ trait VarText {
 	  * @since 2.0.0
 	  */
 	def render (vars: Map[String, String]): String =
-		nodes.map(_.render(vars)).mkString
+		this.postRender(
+			this.preRender(vars)
+		)
 	
 	/** Render this VarText with the given [[Var]]s seq.
 	  * @since 2.0.0
 	  */
 	def render (vars: Var*): String =
 		render(Map.from(vars.toList.map(_.unpackKV)))
+	
+	private def preRender (vars: Map[String, String]): List[RenderedSegment] = {
+		
+		val renderingOrderingList = nodes.map(_.renderOrdering).distinct.sorted
+		val renderingSequence: RenderingSequence = ListBuffer.from(nodes)
+		
+		for (currOrderId <- renderingOrderingList) {
+			for (currNodeIndex <- renderingSequence.indices) {
+				val i = renderingSequence(currNodeIndex)
+				i match {
+					case node: VTNode =>
+						renderingSequence.update(
+							currNodeIndex,
+							node.render(using renderingSequence, vars)(currNodeIndex)
+						)
+					case _ =>
+				}
+			}
+		}
+		
+		renderingSequence.filter(_.isInstanceOf[RenderedSegment]).toList.asInstanceOf[List[RenderedSegment]]
+		
+	}
+	
+	private def postRender (sequence: List[RenderedSegment]): String =
+		sequence.map(_.text).mkString
 	
 	/** Inspect the nodes of this VarText.
 	  * 
@@ -55,9 +86,11 @@ trait VarText {
   *
   *  - [[VarText]] constructor
   *  - [[VarText]] parser
-  *  - [[VarText]] to [[String]] convertor using the simple [[VarText.render]] renderer
+  *  - [[VarText]] to [[String]] convertor using the simple [[VarText.preRender]] renderer
   */
 object VarText {
+	
+	type RenderingSequence = ListBuffer[RenderedSegment|VTNode]
 	
 	/** Most basic [[VarText]] constructor, convert a series [[VTNode]] to [[VarText]]
 	  */

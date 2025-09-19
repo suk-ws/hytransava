@@ -1,8 +1,12 @@
 package cc.sukazyo.hytrans.var_text
 
+import cc.sukazyo.hytrans.var_text.VarText.RenderingSequence
+
 /** A node of a [[VarText]].
   */
 trait VTNode {
+	
+	val renderOrdering: Float
 	
 	/** Render this node with the given `(var-key -> value)` map.
 	  * 
@@ -14,7 +18,8 @@ trait VTNode {
 	  *             searching.
 	  * @return The rendered [[String]] text of this node.
 	  */
-	def render (vars: Map[String, String]): String
+	def render (using sequence: RenderingSequence, vars: Map[String, String])(index: Int)
+	: RenderedSegment
 	
 	def serialize: String
 	
