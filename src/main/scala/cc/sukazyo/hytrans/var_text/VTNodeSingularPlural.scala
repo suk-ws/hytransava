@@ -20,7 +20,7 @@ class VTNodeSingularPlural (
 		val searchSequences =
 			direction match
 				// ":x/x:", before this segments
-				case SearchDirection.Front => sequence.indices.drop(sequence.length - index).reverse
+				case SearchDirection.Front => sequence.indices.dropRight(sequence.length - index).reverse
 				// ":x/x:>", after this segments
 				case SearchDirection.Back => sequence.indices.drop(index + 1)
 		
