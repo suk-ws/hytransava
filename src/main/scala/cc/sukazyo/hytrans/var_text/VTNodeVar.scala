@@ -28,7 +28,7 @@ class VTNodeVar (
 }
 
 object VTNodeVar {
-	class RenderedVar (var_id: String, result: Option[String]) extends RenderedSegment {
+	class RenderedVar (val var_id: String, val result: Option[String]) extends RenderedSegment {
 		override def text: String =
 			result.getOrElse(s"$${$var_id}")
 		override def serialize: String = {
