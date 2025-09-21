@@ -1,7 +1,7 @@
 package cc.sukazyo.hytrans.var_text
 
-import cc.sukazyo.hytrans.var_text.VTNodeVar.RenderedVar
-import cc.sukazyo.hytrans.var_text.VarText.RenderingSequence
+import cc.sukazyo.hytrans.var_text.VarText.RenderingContext
+import cc.sukazyo.hytrans.var_text.VariableSegment.RenderedVariable
 
 /** A variable node of a [[VarText]], contains a `var_id`.
   *
@@ -9,14 +9,14 @@ import cc.sukazyo.hytrans.var_text.VarText.RenderingSequence
   * matches [[Var.text]]. If there's no matches [[Var]] provided, this will render a placeholder
   * formatted like `${var_id}`
   */
-class VTNodeVar (
+class VariableSegment (
 	var_id: String
-) extends VTNode {
+) extends Segment {
 	
 	override val renderOrdering: Float = 0f
 	
-	override def render (using sequence: RenderingSequence, vars: Map[String, String])(index: Int): RenderedVar = {
-		RenderedVar(var_id, vars.get(var_id))
+	override def render (using context: RenderingContext)(index: Int): RenderedVariable = {
+		RenderedVariable(var_id, context.vars.get(var_id))
 	}
 	
 	override def toString: String =
@@ -27,8 +27,8 @@ class VTNodeVar (
 	
 }
 
-object VTNodeVar {
-	class RenderedVar (val var_id: String, val result: Option[String]) extends RenderedSegment {
+object VariableSegment {
+	class RenderedVariable (val var_id: String, val result: Option[String]) extends RenderedSegment {
 		override def text: String =
 			result.getOrElse(s"$${$var_id}")
 		override def serialize: String = {

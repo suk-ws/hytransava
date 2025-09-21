@@ -1,19 +1,19 @@
 package cc.sukazyo.hytrans.var_text
 
-import cc.sukazyo.hytrans.var_text.VTNodeLiteral.RenderedLiteral
-import cc.sukazyo.hytrans.var_text.VarText.RenderingSequence
+import cc.sukazyo.hytrans.var_text.LiteralSegment.RenderedLiteral
+import cc.sukazyo.hytrans.var_text.VarText.RenderingContext
 
 /** A literal node of a [[VarText]].
   * 
   * Contains a [[String]] literal param `text`. And this will be rendered as is.
   */
-case class VTNodeLiteral (
+case class LiteralSegment (
 	text: String
-) extends VTNode {
+) extends Segment {
 	
 	override val renderOrdering: Float = -100f
 	
-	override def render (using sequence: RenderingSequence, vars: Map[String, String])(index: Int): RenderedLiteral =
+	override def render (using RenderingContext)(index: Int): RenderedLiteral =
 		RenderedLiteral(text)
 	
 	override def toString: String =
@@ -31,7 +31,7 @@ case class VTNodeLiteral (
 	
 }
 
-object VTNodeLiteral {
+object LiteralSegment {
 	class RenderedLiteral (_text: String) extends RenderedSegment {
 		override def text: String = text
 		override def serialize: String =

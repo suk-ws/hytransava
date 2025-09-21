@@ -1,33 +1,33 @@
 package cc.sukazyo.hytrans.var_text
 
-import cc.sukazyo.hytrans.var_text.VTNodeSingularPlural.{RenderedSingularPluralSegment, SearchDirection, SingularPluralResultType}
-import cc.sukazyo.hytrans.var_text.VTNodeVar.RenderedVar
-import cc.sukazyo.hytrans.var_text.VarText.RenderingSequence
+import cc.sukazyo.hytrans.var_text.SingularPluralSegment.{RenderedSingularPluralSegment, SearchDirection, SingularPluralResultType}
+import cc.sukazyo.hytrans.var_text.VarText.RenderingContext
+import cc.sukazyo.hytrans.var_text.VariableSegment.RenderedVariable
 
 import scala.util.boundary
 import scala.util.boundary.break
 
-class VTNodeSingularPlural (
+class SingularPluralSegment (
 	singular: String,
 	plural: String,
 	direction: SearchDirection
-) extends VTNode {
+) extends Segment {
 	
 	override val renderOrdering: Float = 20f
 	
-	override def render (using sequence: RenderingSequence, vars: Map[String, String])(index: Int): RenderedSegment = {
+	override def render (using context: RenderingContext)(index: Int): RenderedSegment = {
 		
 		val searchSequences =
 			direction match
 				// ":x/x:", before this segments
-				case SearchDirection.Front => sequence.indices.dropRight(sequence.length - index).reverse
+				case SearchDirection.Front => context.sequence.indices.dropRight(context.sequence.length - index).reverse
 				// ":x/x:>", after this segments
-				case SearchDirection.Back => sequence.indices.drop(index + 1)
+				case SearchDirection.Back => context.sequence.indices.drop(index + 1)
 		
-		val variable: Option[RenderedVar] = boundary {
+		val variable: Option[RenderedVariable] = boundary {
 			for (i <- searchSequences) {
-				sequence(i) match
-					case vari: RenderedVar => break(Some(vari))
+				context.sequence(i) match
+					case vari: RenderedVariable => break(Some(vari))
 					case _ =>
 			}
 			break(None)
@@ -43,6 +43,9 @@ class VTNodeSingularPlural (
 		
 	}
 	
+	override def toString: String =
+		s"singular_plural[$singular/$plural]"
+	
 	override def serialize: String = s":$singular/$plural:${
 		direction match
 			case SearchDirection.Front => ""
@@ -51,7 +54,7 @@ class VTNodeSingularPlural (
 	
 }
 
-object VTNodeSingularPlural {
+object SingularPluralSegment {
 	
 	enum SearchDirection {
 		/** This type of direction search the variable in front of this segment. like `{variable} :it:` */
